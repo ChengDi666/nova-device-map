@@ -1,6 +1,6 @@
 <?php
 
-namespace Ofancn\Amap;
+namespace Norge\Amap;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;

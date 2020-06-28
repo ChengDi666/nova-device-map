@@ -12,6 +12,7 @@
     </svg>
 
     {{ field.value.lat }}
+    新的
   </span>
   <span v-else>&mdash;</span>
 </template>
