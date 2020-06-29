@@ -1,11 +1,11 @@
 <?php
 
-namespace cheng0_0di\Amap;
+namespace cheng0_0di\Mymap;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Amap extends Field {
+class Mymap extends Field {
 
     /**
      * The field's component.

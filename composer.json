@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "cheng0_0di\\Amap\\": "src/"
+            "cheng0_0di\\Mymap\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "cheng0_0di\\Amap\\FieldServiceProvider"
+                "cheng0_0di\\Mymap\\MyServiceProvider"
             ]
         }
     },

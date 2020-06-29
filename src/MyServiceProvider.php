@@ -1,12 +1,12 @@
 <?php
 
-namespace cheng0_0di\Amap;
+namespace cheng0_0di\Mymap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
 
-class FieldServiceProvider extends ServiceProvider
+class MyServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
