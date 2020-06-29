@@ -1,6 +1,6 @@
 <?php
 
-namespace Norge\Amap;
+namespace cheng0_0di\Amap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;

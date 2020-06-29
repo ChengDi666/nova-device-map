@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Norge\\Amap\\": "src/"
+            "cheng0_0di\\Amap\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Norge\\Amap\\FieldServiceProvider"
+                "cheng0_0di\\Amap\\FieldServiceProvider"
             ]
         }
     },
