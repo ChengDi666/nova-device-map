@@ -27,7 +27,7 @@ class Mymap extends Field {
         ]);
     }
 
-    protected function myfillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute) {
+    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute) {
         if ($request->exists($requestAttribute)) {
             $model->{$attribute} = json_decode($request[$requestAttribute], true);
         }
