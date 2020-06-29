@@ -1,5 +1,5 @@
 {
-    "name": "cheng0_0di/norgetamap",
+    "name": "cheng0_0di/norget_amap",
     "description": "地图相关组件",
     "keywords": [
         "laravel",
@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "cheng0_0di\\norgetamap\\": "src/"
+            "Norge\\Mymap\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "cheng0_0di\\norgetamap\\MyServiceProvider"
+                "Norge\\Mymap\\MyServiceProvider"
             ]
         }
     },

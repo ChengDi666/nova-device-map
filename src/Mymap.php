@@ -1,6 +1,6 @@
 <?php
 
-namespace cheng0_0di\norgetamap;
+namespace Norge\Mymap;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;

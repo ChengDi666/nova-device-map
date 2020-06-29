@@ -1,6 +1,6 @@
 <?php
 
-namespace cheng0_0di\norgetamap;
+namespace Norge\Mymap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
