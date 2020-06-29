@@ -14,20 +14,20 @@ class Mymap extends Field {
      */
     public $component = 'amap';
 
-    public function initLocation($latitude, $longitude) {
+    public function myinitLocation($latitude, $longitude) {
         return $this->withMeta([
                     'lat' => $latitude,
                     'lng' => $longitude,
         ]);
     }
 
-    public function zoom($zoom) {
+    public function myzoom($zoom) {
         return $this->withMeta([
                     'zoom' => $zoom
         ]);
     }
 
-    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute) {
+    protected function myfillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute) {
         if ($request->exists($requestAttribute)) {
             $model->{$attribute} = json_decode($request[$requestAttribute], true);
         }
