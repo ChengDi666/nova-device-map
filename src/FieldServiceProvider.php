@@ -1,12 +1,12 @@
 <?php
 
-namespace Norge\Mymap;
+namespace Ofancn\Mymap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
 
-class MyServiceProvider extends ServiceProvider
+class FieldServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
