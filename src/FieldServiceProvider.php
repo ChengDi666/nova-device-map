@@ -1,6 +1,6 @@
 <?php
 
-namespace Ofancn\Mymap;
+namespace Norge\Mymap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
