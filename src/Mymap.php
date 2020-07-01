@@ -12,7 +12,7 @@ class Mymap extends Field {
      *
      * @var string
      */
-    public $component = 'amap';
+    public $component = 'myamap';
 
     public function myinitLocation($latitude, $longitude) {
         return $this->withMeta([

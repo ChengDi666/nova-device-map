@@ -6,18 +6,18 @@ use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
 
-class FieldServiceProvider extends ServiceProvider
+class MyServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
      *
      * @return void
      */
-    public function boot()
+    public function myboot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('amap', __DIR__.'/../dist/js/field.js');
-            Nova::style('amap', __DIR__.'/../dist/css/field.css');
+            Nova::script('myamap', __DIR__.'/../dist/js/field.js');
+            Nova::style('myamap', __DIR__.'/../dist/css/field.css');
         });
     }
 
