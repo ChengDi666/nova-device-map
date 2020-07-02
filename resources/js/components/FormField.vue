@@ -16,7 +16,7 @@
           class="amap-field"
           :events="events"
         >
-          <!-- <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker> -->
+          <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker>
         </el-amap>
         <div style=" padding: 5px; position: absolute; top: 5px; left: 5px; background: rgba(204, 204, 204, 0.59);">
           <div class="input-item">
@@ -64,7 +64,7 @@ export default {
     return {
       zoom: 12,
       amapManager,
-      center: [113.4911, 22.56153],
+      center: [],
       position: [],
       overlays: [],
       address: "",
@@ -87,7 +87,7 @@ export default {
             init: o => {
               o.getCurrentPosition((status, result) => {
                 if (result && result.position) {
-                  console.log(result.position);
+                  // console.log(result.position);
                   let { lng, lat } = result.position;
                   this.lng = lng;
                   this.lat = lat;
@@ -113,10 +113,10 @@ export default {
       setTimeout(() => {
         let map = this.amapManager._map;
         this.mouseTool = new AMap.MouseTool(map);
-        console.log(222);
+        // console.log(222);
 
         this.mouseTool.on('draw', (event) => {
-          console.log(event.obj);
+          // console.log(event.obj);
           this.clears('');
           // event.obj 为绘制出来的覆盖物对象
           if (event.obj.CLASS_NAME == 'AMap.Circle') {
@@ -134,18 +134,16 @@ export default {
               this.ccccc.positions.push({lat, lng});
             });
           }
-          console.log(this.ccccc);
+          // console.log(this.ccccc);
           this.overlays = [event.obj];
           this.setAmapValue();
-          console.log(this.overlays);
+          // console.log(this.overlays);
           console.log('覆盖物对象绘制完成')
         })
         // this.draw('marker')
       }, 1000);
-    console.log(this.field);
+    // console.log(this.field);
     if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
-        console.log(this.field.value.lng);
-        console.log(this.field.value.lat);
         lng = this.field.value.lng;
         lat = this.field.value.lat;
         setTimeout(() => {
@@ -153,16 +151,17 @@ export default {
         }, 500);
     } else {
       // this.field.value.type == 'circle' ? {lng, lat} = this.field.value.center : {lng, lat} = this.field.value.positions[0] ;
-      console.log(123456);
-      // lng = this.field.lng;
-      // lat = this.field.lat;
+      // console.log(123456);
+      lng = this.field.lng;
+      lat = this.field.lat;
       zoom = this.field.zoom;
     }
     this.lat = lat;
     this.lng = lng;
     this.zoom = zoom;
     this.center = [lng, lat];
-    console.log(this.center);
+    this.position = [lng, lat];
+    // console.log(this.center);
     setTimeout(() => {
       this.tianjia(this.field.value);
     }, 500);
@@ -180,8 +179,8 @@ export default {
      */
     fill(formData) {
       formData.append(this.field.attribute, JSON.stringify(this.value || ""));
-      console.log('测试');
-      console.log(JSON.stringify(this.value || ""));
+      // console.log('测试');
+      // console.log(JSON.stringify(this.value || ""));
     },
 
     /**
@@ -190,8 +189,8 @@ export default {
     handleChange(value) {
       // Object.assign(this.value, value);
       this.value = value;
-      console.log(888);
-      console.log(this.value);
+      // console.log(888);
+      // console.log(this.value);
     },
     setAmapValue() {
       let value = {
@@ -201,8 +200,8 @@ export default {
       };
       Object.assign(value, this.ccccc);
       // const value = this.ccccc;
-      console.log(333);
-      console.log(value);
+      // console.log(333);
+      // console.log(value);
       this.handleChange(value);
     },
     geocoder(lng, lat) {
@@ -228,11 +227,12 @@ export default {
       const map = this.amapManager._map;
       const fugaiwu = map.getAllOverlays();
       if(fugaiwu) {
-        console.log(map.getAllOverlays());
+        // console.log(map.getAllOverlays());
         (map.getAllOverlays()).forEach(item => {
           // console.log(item);
           if(item.CLASS_NAME == 'AMap.Marker') {
             item.setPosition(new AMap.LngLat(lng, lat));
+            item.setzIndex(101);
             istrue = false;
           }
         });
@@ -259,7 +259,7 @@ export default {
 
     tianjia(data) {
       let map = this.amapManager._map;
-      console.log(data);
+      // console.log(data);
       if (data.type == 'polygon') {
         let polygonPath = [];
         data.positions.forEach(element => {
@@ -292,7 +292,7 @@ export default {
     },
 
     eventsclick(e) {
-      console.log(e.lnglat);
+      // console.log(e.lnglat);
       if(this.istrues) {
         let { lng, lat } = e.lnglat;
         this.lng = lng;
@@ -307,11 +307,11 @@ export default {
       let map = this.amapManager._map;
       if (e && e.type == 'click') {
         const aa = document.getElementsByName('func');
-        console.log(aa);
+        // console.log(aa);
         aa.forEach(item => item.checked = false);
         this.istrues = false;
         this.mouseTool.close(true);
-        console.log(map.getAllOverlays());
+        // console.log(map.getAllOverlays());
         // const type = ;
         const mypolygon = map.getAllOverlays();
         map.remove(mypolygon);
@@ -324,8 +324,8 @@ export default {
     },
 
     draw(type) {
-      console.log(type);
-      console.log(this.field);
+      // console.log(type);
+      // console.log(this.field);
       this.istrues = false;
       switch(type) {
         case 'marker':{

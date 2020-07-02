@@ -1,8 +1,8 @@
 import VueAMap from 'vue-amap';
 Nova.booting((Vue, router, store) => {
-    Vue.component('myindex-amap', require('./components/IndexField'))
-    Vue.component('mydetail-amap', require('./components/DetailField'))
-    Vue.component('myform-amap', require('./components/FormField'))
+    Vue.component('index-ngmap', require('./components/IndexField'))
+    Vue.component('detail-ngmap', require('./components/DetailField'))
+    Vue.component('form-ngmap', require('./components/FormField'))
 
 
     Vue.use(VueAMap);

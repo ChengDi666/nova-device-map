@@ -1,27 +1,27 @@
 <?php
 
-namespace Norge\Mymap;
+namespace Norge\Ngmap;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Mymap extends Field {
+class Ngmap extends Field {
 
     /**
      * The field's component.
      *
      * @var string
      */
-    public $component = 'amap';
+    public $component = 'ngmap';
 
-    public function myinitLocation($latitude, $longitude) {
+    public function initLocation($latitude, $longitude) {
         return $this->withMeta([
                     'lat' => $latitude,
                     'lng' => $longitude,
         ]);
     }
 
-    public function myzoom($zoom) {
+    public function zoom($zoom) {
         return $this->withMeta([
                     'zoom' => $zoom
         ]);

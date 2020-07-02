@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Norge\\Mymap\\": "src/"
+            "Norge\\Ngmap\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Norge\\Mymap\\FieldServiceProvider"
+                "Norge\\Ngmap\\FieldServiceProvider"
             ]
         }
     },
