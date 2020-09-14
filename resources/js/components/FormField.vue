@@ -18,7 +18,7 @@
         >
           <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker>
         </el-amap>
-        <div style=" padding: 5px; position: absolute; top: 5px; left: 5px; background: rgba(204, 204, 204, 0.59);">
+        <!-- <div style=" padding: 5px; position: absolute; top: 5px; left: 5px; background: rgba(204, 204, 204, 0.59);">
           <div class="input-item">
             <label>
               <input type="radio" name='func' v-on:click="draw('marker')" value='marker'>
@@ -34,7 +34,7 @@
             </label><br>
             <input id="clears" type="button" v-on:click="clears" class="btn" value="清除" />
           </div>
-        </div>
+        </div> -->
       </div>
       <input
         v-if="address"
@@ -68,7 +68,7 @@ export default {
       position: [],
       overlays: [],
       address: "",
-      ccccc: {},
+      shapes: {},
       istrues: false,
       searchOption: {
         city: "山东",
@@ -116,33 +116,35 @@ export default {
         // console.log(222);
 
         this.mouseTool.on('draw', (event) => {
-          // console.log(event.obj);
+          console.log(event.obj);
           this.clears('');
           // event.obj 为绘制出来的覆盖物对象
           if (event.obj.CLASS_NAME == 'AMap.Circle') {
-            this.ccccc = {};
-            this.ccccc.type = 'circle';
+            this.shapes = {};
+            this.shapes.type = 'circle';
             const {lng, lat} = event.obj.getCenter()
-            this.ccccc.center = {lng, lat};
-            this.ccccc.radius = event.obj.getRadius();
+            this.shapes.center = {lng, lat};
+            this.shapes.radius = event.obj.getRadius();
           } else {
-            this.ccccc = {};
-            this.ccccc.positions = [];
-            this.ccccc.type = 'polygon';
-            event.obj.F.path.forEach(item => {
+            this.shapes = {};
+            this.shapes.positions = [];
+            this.shapes.type = 'polygon';
+            console.log(event.obj.getPath());
+            (event.obj.getPath()).forEach(item => {
               const {lat, lng} = item;
-              this.ccccc.positions.push({lat, lng});
+              this.shapes.positions.push({lat, lng});
             });
           }
-          // console.log(this.ccccc);
+          // console.log(this.shapes);
           this.overlays = [event.obj];
           this.setAmapValue();
           // console.log(this.overlays);
           console.log('覆盖物对象绘制完成')
         })
         // this.draw('marker')
+        this.draw(this.field.shapetype);
       }, 1000);
-    // console.log(this.field);
+    console.log(this.field);
     if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
         lng = this.field.value.lng;
         lat = this.field.value.lat;
@@ -179,8 +181,8 @@ export default {
      */
     fill(formData) {
       formData.append(this.field.attribute, JSON.stringify(this.value || ""));
-      // console.log('测试');
-      // console.log(JSON.stringify(this.value || ""));
+      console.log('测试');
+      console.log(this.value || "");
     },
 
     /**
@@ -190,7 +192,7 @@ export default {
       // Object.assign(this.value, value);
       this.value = value;
       // console.log(888);
-      // console.log(this.value);
+      console.log(this.value);
     },
     setAmapValue() {
       let value = {
@@ -198,8 +200,8 @@ export default {
         lat: this.lat,
         address: this.address
       };
-      Object.assign(value, this.ccccc);
-      // const value = this.ccccc;
+      Object.assign(value, this.shapes);
+      // const value = this.shapes;
       // console.log(333);
       // console.log(value);
       this.handleChange(value);
@@ -292,7 +294,7 @@ export default {
     },
 
     eventsclick(e) {
-      // console.log(e.lnglat);
+      console.log(e.lnglat);
       if(this.istrues) {
         let { lng, lat } = e.lnglat;
         this.lng = lng;
@@ -324,18 +326,19 @@ export default {
     },
 
     draw(type) {
-      // console.log(type);
+      console.log(type);
       // console.log(this.field);
       this.istrues = false;
       switch(type) {
-        case 'marker':{
+        case 1:{ //  marker
             // this.mouseTool.marker({
             //   //同Marker的Option设置
             // });
             this.istrues = true;
+            console.log(this.istrues);
             break;
         }
-        case 'polygon':{
+        case 2:{ //  polygon
             this.mouseTool.polygon({
               fillColor:'#00b0ff',
               strokeColor:'#80d8ff'
@@ -343,7 +346,7 @@ export default {
             });
             break;
         }
-        case 'circle':{
+        case 3:{ //  circle
             this.mouseTool.circle({
               fillColor:'#00b0ff',
               strokeColor:'#80d8ff'

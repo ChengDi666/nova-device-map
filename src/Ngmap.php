@@ -21,11 +21,20 @@ class Ngmap extends Field {
         ]);
     }
 
+    //  缩放
     public function zoom($zoom) {
         return $this->withMeta([
                     'zoom' => $zoom
         ]);
     }
+
+    //  图形类型
+    public function shapeType($shapeType) {
+        return $this->withMeta([
+                    'shapetype' => $shapeType
+        ]);
+    }
+
 
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute) {
         if ($request->exists($requestAttribute)) {
