@@ -116,7 +116,7 @@ export default {
         // console.log(222);
 
         this.mouseTool.on('draw', (event) => {
-          console.log(event.obj);
+          // console.log(event.obj);
           this.clears('');
           // event.obj 为绘制出来的覆盖物对象
           if (event.obj.CLASS_NAME == 'AMap.Circle') {
@@ -181,8 +181,8 @@ export default {
      */
     fill(formData) {
       formData.append(this.field.attribute, JSON.stringify(this.value || ""));
-      console.log('测试');
-      console.log(this.value || "");
+      // console.log('测试');
+      // console.log(this.value || "");
     },
 
     /**
@@ -191,8 +191,7 @@ export default {
     handleChange(value) {
       // Object.assign(this.value, value);
       this.value = value;
-      // console.log(888);
-      console.log(this.value);
+      // console.log(this.value);
     },
     setAmapValue() {
       let value = {
@@ -294,7 +293,7 @@ export default {
     },
 
     eventsclick(e) {
-      console.log(e.lnglat);
+      // console.log(e.lnglat);
       if(this.istrues) {
         let { lng, lat } = e.lnglat;
         this.lng = lng;
@@ -335,7 +334,6 @@ export default {
             //   //同Marker的Option设置
             // });
             this.istrues = true;
-            console.log(this.istrues);
             break;
         }
         case 2:{ //  polygon
