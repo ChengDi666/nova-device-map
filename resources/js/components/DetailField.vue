@@ -1,7 +1,6 @@
 <template>
   <panel-item :field="field">
     <div slot="value" v-if="field.value">
-      <div class="search-box" v-if="field.value.address">{{field.value.address}}</div>
       <div class="amap-page-container">
         <el-amap
           v-if="center.length"
@@ -50,9 +49,9 @@ export default {
     if (this.field.value instanceof Object) {
       lng = this.field.value.lng;
       lat = this.field.value.lat;
-      console.log(this.field);
+      // console.log(this.field);
       this.obmobile = this.field.value;
-      if (this.field.value.type == 'polygon') {
+      if (this.field.value.type == 'polygon') { //  多边形
         
         this.field.value.positions.forEach((element, index) => {
           this.obmobile.positions[index] = [element.lng, element.lat];
@@ -60,9 +59,9 @@ export default {
         if (this.field.value.lng == '') {
           lng = this.obmobile.positions[0][0];
           lat = this.obmobile.positions[0][1];
-          console.log(lng, lat);
+          // console.log(lng, lat);
         }
-      } else if (this.field.value.type == 'circle') {
+      } else if (this.field.value.type == 'circle') {   //  圆形
         // {lat, lng} = this.obmobile.center;
         if (this.field.value.lng == '') {
           lng = this.field.value.center.lng;
@@ -70,13 +69,13 @@ export default {
         }
         this.obmobile.center = [lng, lat];
       }
-      console.log(this.obmobile);
+      // console.log(this.obmobile);
       this.center = [lng, lat];
       if (this.field.value.lng != '') {
         this.position = [lng, lat];
       }
-      console.log(this.center);
-      console.log(this.position);
+      // console.log(this.center);
+      // console.log(this.position);
     } else {
       lng = this.field.lng;
       lat = this.field.lat;

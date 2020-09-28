@@ -1,11 +1,11 @@
 <template>
   <default-field :field="field" :errors="errors">
     <template slot="field">
-      <el-amap-search-box
+      <!-- <el-amap-search-box
         class="search-box"
         :search-option="searchOption"
         :on-search-result="onSearchResult"
-      ></el-amap-search-box>
+      ></el-amap-search-box> -->
       <div class="amap-page-container">
         <el-amap
           vid="amapDemo"
@@ -18,25 +18,8 @@
         >
           <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker>
         </el-amap>
-        <!-- <div style=" padding: 5px; position: absolute; top: 5px; left: 5px; background: rgba(204, 204, 204, 0.59);">
-          <div class="input-item">
-            <label>
-              <input type="radio" name='func' v-on:click="draw('marker')" value='marker'>
-              <span class="input-text">选点</span>
-            </label><br>
-            <label>
-              <input type="radio" name='func' v-on:click="draw('polygon')" value='polygon'>
-              <span class="input-text" style='width:5rem;'>画多边形</span>
-            </label><br>
-            <label>
-              <input type="radio" name='func' v-on:click="draw('circle')" value='circle'>
-              <span class="input-text">画圆</span>
-            </label><br>
-            <input id="clears" type="button" v-on:click="clears" class="btn" value="清除" />
-          </div>
-        </div> -->
       </div>
-      <input
+      <!-- <input
         v-if="address"
         :id="field.name"
         type="text"
@@ -44,7 +27,7 @@
         :class="errorClasses"
         :placeholder="field.name"
         v-model="address"
-      >
+      > -->
 
     </template>
   </default-field>
@@ -67,7 +50,7 @@ export default {
       center: [],
       position: [],
       overlays: [],
-      address: "",
+      // address: "",
       shapes: {},
       istrues: false,
       searchOption: {
@@ -92,7 +75,7 @@ export default {
                   this.lng = lng;
                   this.lat = lat;
                   this.setMarker(lng, lat);
-                  this.geocoder(lng, lat);
+                  // this.geocoder(lng, lat);
                   this.setAmapValue();
                   this.zoom = 20;
                   this.$nextTick();
@@ -197,7 +180,7 @@ export default {
       let value = {
         lng: this.lng,
         lat: this.lat,
-        address: this.address
+        // address: this.address
       };
       Object.assign(value, this.shapes);
       // const value = this.shapes;
@@ -205,23 +188,23 @@ export default {
       // console.log(value);
       this.handleChange(value);
     },
-    geocoder(lng, lat) {
-      // 这里通过高德 SDK 完成。
+    // geocoder(lng, lat) {
+    //   // 这里通过高德 SDK 完成。
       
-      let geocoder = new AMap.Geocoder({
-        radius: 1000,
-        extensions: "all"
-      });
-      geocoder.getAddress([lng, lat], (status, result) => {
-        if (status === "complete" && result.info === "OK") {
-          if (result && result.regeocode) {
-            this.address = result.regeocode.formattedAddress;
-            this.setAmapValue();
-            this.$nextTick();
-          }
-        }
-      });
-    },
+    //   let geocoder = new AMap.Geocoder({
+    //     radius: 1000,
+    //     extensions: "all"
+    //   });
+    //   geocoder.getAddress([lng, lat], (status, result) => {
+    //     if (status === "complete" && result.info === "OK") {
+    //       if (result && result.regeocode) {
+    //         // this.address = result.regeocode.formattedAddress;
+    //         this.setAmapValue();
+    //         this.$nextTick();
+    //       }
+    //     }
+    //   });
+    // },
     setMarker(lng, lat) {
       this.position = [lng, lat];
       let istrue = true;
@@ -251,7 +234,7 @@ export default {
         let { lng, lat } = pois[0];
         this.center = [lng, lat];
         this.setMarker(lng, lat);
-        this.geocoder(lng, lat);
+        // this.geocoder(lng, lat);
         this.lng = lng;
         this.lat = lat;
         this.setAmapValue();
@@ -299,7 +282,7 @@ export default {
         this.lng = lng;
         this.lat = lat;
         this.setMarker(lng, lat);
-        this.geocoder(lng, lat);
+        // this.geocoder(lng, lat);
         this.setAmapValue();
       }
     },
