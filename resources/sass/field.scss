@@ -1,8 +1,6 @@
-.amap-field {
-    height: 300px;
-  }
+
 .amap-page-container{
-  height: 350px;
+  height: 400px;
   margin-bottom:10px;
   position: relative;
 }
@@ -21,4 +19,46 @@
 }
 .icon{
   vertical-align: bottom;
+}
+
+.big-map{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80%;
+  height: 90%;
+  z-index: 99;
+  margin: calc(5vh) 10%;
+  box-shadow: 0 0 10px 0px black;
+}
+.zhezhao {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 98;
+  background: rgba(0,0,0,0.3);
+}
+
+.screen-zoom-icon{
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  cursor: pointer;    
+  padding: 5px;
+  background: #fff;
+  box-shadow: 0 0 5px 0px #000000;
+}
+
+.screen-zoom-icon:hover{
+  background: rgba(255,255,255,0.5);
+}
+
+.screen-zoom-icon svg{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.screen-zoom-icon path{
+  fill: #525252;
 }
