@@ -1,5 +1,5 @@
 {
-    "name": "norgeit/norget_amap",
+    "name": "norgeit/devicemap",
     "description": "地图相关组件",
     "keywords": [
         "laravel",
@@ -12,13 +12,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Norgeit\\Ngmap\\": "src/"
+            "Norgeit\\DeviceMap\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Norgeit\\Ngmap\\FieldServiceProvider"
+                "Norgeit\\DeviceMap\\FieldServiceProvider"
             ]
         }
     },

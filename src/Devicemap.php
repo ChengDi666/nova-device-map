@@ -1,18 +1,18 @@
 <?php
 
-namespace Norge\Ngmap;
+namespace Norgeit\DeviceMap;
 
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Ngmap extends Field {
+class DeviceMap extends Field {
 
     /**
      * The field's component.
      *
      * @var string
      */
-    public $component = 'ngmap';
+    public $component = 'devicemap';
 
     public function initLocation($latitude, $longitude) {
         return $this->withMeta([

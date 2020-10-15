@@ -18,11 +18,11 @@
     "vue": "^2.5.0",
     "vue-amap": "^0.5.9"
   },
-  "name": "norget-amap",
-  "description": "Norget高德地图",
+  "name": "norgeit-devicemap",
+  "description": "Norgeit高德地图",
   "version": "1.0.0",
   "main": "webpack.mix.js",
   "keywords": [],
-  "author": "cheng0_0di",
+  "author": "norgeit",
   "license": "ISC"
 }

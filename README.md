@@ -1,2 +1,2 @@
 # norget-amap
-Norget 高德地图使用
+Norgeit 设备组件地图

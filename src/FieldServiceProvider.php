@@ -1,6 +1,6 @@
 <?php
 
-namespace Norge\Ngmap;
+namespace Norgeit\DeviceMap;
 
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
@@ -16,8 +16,8 @@ class FieldServiceProvider extends ServiceProvider
     public function boot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('ngmap', __DIR__.'/../dist/js/field.js');
-            Nova::style('ngmap', __DIR__.'/../dist/css/field.css');
+            Nova::script('devicemap', __DIR__.'/../dist/js/field.js');
+            Nova::style('devicemap', __DIR__.'/../dist/css/field.css');
         });
     }
 
