@@ -8,6 +8,7 @@
           :center="center"
           :zoom="zoom"
           class="amap-field"
+          :events="mapEvents"
         >
           <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker>
           <el-amap-polygon v-if="obmobile.type == 'polygon' ? true : false" vid="polygonss" :path="obmobile.positions" :events="events"></el-amap-polygon>
@@ -24,11 +25,18 @@ export default {
   props: ["resource", "resourceName", "resourceId", "field"],
   data() {
     return {
-      zoom: 12,
+      zoom: 13,
       center: [],
       position: [],
       polygons: [],
       obmobile: {},
+      mapEvents: {
+        init(o) {
+          setTimeout(() => {  //  覆盖物居中
+            o.setFitView(o.getAllOverlays());
+          }, 5000);
+        }
+      },
       events: {
         init(o) {
           o.setOptions({
@@ -42,10 +50,8 @@ export default {
     };
   },
   mounted() {
-    let lng,
-      lat,
-      zoom = 12;
-    console.log(this.field);
+    let lng, lat, zoom = 12;
+    // console.log(this.field);
     if (this.field.value instanceof Object) {
       lng = this.field.value.lng;
       lat = this.field.value.lat;
@@ -68,14 +74,11 @@ export default {
           lat = this.field.value.center.lat;
         }
         this.obmobile.center = [lng, lat];
+      } else if(this.field.value.type == undefined) {
+        this.position = [lng, lat];
       }
       // console.log(this.obmobile);
       this.center = [lng, lat];
-      if (this.field.value.lng != '') {
-        this.position = [lng, lat];
-      }
-      // console.log(this.center);
-      // console.log(this.position);
     } else {
       lng = this.field.lng;
       lat = this.field.lat;
