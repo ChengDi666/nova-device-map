@@ -89,11 +89,14 @@ export default {
   },
   mounted() {
     let lng, lat, zoom = 12;
-    console.log(this.field);
-    console.log(this.field.shapetype);
+    // console.log(this.field);
+    // console.log(this.field.shapetype);
     if (this.field.value instanceof Object) {
-      lng = this.field.value.lng;
-      lat = this.field.value.lat;
+      // lng = this.field.value.lng;
+      // console.log(this.field.value.coordinates);
+      // lat = this.field.value.lat;
+      lat = this.field.value.coordinates[0];
+      lng = this.field.value.coordinates[1];
       // console.log(this.field);
       this.obmobile = this.field.value;
       if(this.field.shapetype == 'track' && this.field.value.path && this.field.value.path.length) {  //  历史轨迹
@@ -124,7 +127,7 @@ export default {
           lat = this.field.value.center.lat;
         }
         this.obmobile.center = [lng, lat];
-      } else if(this.field.value.type == undefined) {
+      } else if(this.field.value.type == 'Point') { // 点
         this.position = [lng, lat];
       }
       // console.log(this.obmobile);

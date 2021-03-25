@@ -81,10 +81,13 @@ export default {
       this.initMouseTool();
       this.draw(this.field.shapetype);
     }, 1000);
-    console.log(this.field);
-    if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
-      lng = this.field.value.lng;
-      lat = this.field.value.lat;
+    // console.log(this.field);
+    if (this.field.value instanceof Object && this.field.value.coordinates.length) {
+    // if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
+    //   // lng = this.field.value.lng;
+      // lat = this.field.value.lat;
+      lat = this.field.value.coordinates[0];
+      lng = this.field.value.coordinates[1];
     } else {
       lng = this.field.lng;
       lat = this.field.lat;
@@ -245,16 +248,23 @@ export default {
       this.value = value;
     },
     setAmapValue() {  //  设置字段的内部值
+      // let value = {
+      //   lng: this.lng,
+      //   lat: this.lat,
+      // };
+      // Object.assign(value, this.overlaysData);
       let value = {
-        lng: this.lng,
-        lat: this.lat,
-      };
-      Object.assign(value, this.overlaysData);
+        coordinates: [this.lat, this.lng],
+        type: "Point"
+      }
+      // POINT(37.513546 121.436274)
+      // let value = `POINT(${this.lat} ${this.lng})`
+      // console.log(value);
       this.handleChange(value);
     },
     initAddOverlays(data) { //  初始化添加覆盖物
       let Overlays;
-      if(data.shapetype == 'setTrack') {
+      if(data.shapetype == 'setTrack') { // 轨迹
         console.log('设置轨迹');
         if(data.value.path && data.value.path.length) {
           this.opens1(data.value);
@@ -262,7 +272,7 @@ export default {
           this.dian.end = true;
         }
         return ;
-      } else if (data.value.type == 'polygon') {
+      } else if (data.value.type == 'polygon') { // 多边形
         let polygonPath = [];
         data.value.positions.forEach(element => {
           polygonPath.push(new AMap.LngLat(element.lng, element.lat))
@@ -275,7 +285,7 @@ export default {
             strokeOpacity: '0.4',
             bubble: true
         });
-      } else if (data.value.type == 'circle') {
+      } else if (data.value.type == 'circle') { // 圆
         const centerPath = new AMap.LngLat(data.value.center.lng, data.value.center.lat);
         Overlays = new AMap.Circle({
             center: centerPath,
@@ -286,9 +296,11 @@ export default {
             strokeOpacity: '0.4',
             bubble: true
         });
-      } else if (data.value.type == undefined && data.value.lng && data.value.lat) {
+      } else if (data.value.type == 'Point' && data.value.coordinates.length) { // 点
+      // } else if (data.value.type == undefined && data.value.lng && data.value.lat) { // 点
         Overlays = new AMap.Marker({
-          position: [data.value.lng, data.value.lat],
+          position: [data.value.coordinates[1], data.value.coordinates[0]],
+          // position: [data.value.lng, data.value.lat],
           offset: new AMap.Pixel(-13, -30)
         });
       }
