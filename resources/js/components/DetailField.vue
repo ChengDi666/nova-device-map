@@ -72,7 +72,7 @@ export default {
         init: (o) => {
           self.myMarker = o;
           // console.log(o);
-          console.log('车辆加载完成');
+          // console.log('车辆加载完成');
           this.startPlay();
         }
       },
@@ -95,14 +95,12 @@ export default {
       // lng = this.field.value.lng;
       // console.log(this.field.value.coordinates);
       // lat = this.field.value.lat;
-      lat = this.field.value.coordinates[0];
-      lng = this.field.value.coordinates[1];
       // console.log(this.field);
       this.obmobile = this.field.value;
       if(this.field.shapetype == 'track' && this.field.value.path && this.field.value.path.length) {  //  历史轨迹
         this.dian.isShow = true;
-        this.dian.position = this.field.value.path[0];
         this.obmobile.path = this.field.value.path;
+        this.dian.position = this.field.value.path[0];
         lat = this.field.value.path[0][1];
         lng = this.field.value.path[0][0];
       } else if(this.field.shapetype == 'setTrack') { //  轨迹设置-显示
@@ -128,6 +126,8 @@ export default {
         }
         this.obmobile.center = [lng, lat];
       } else if(this.field.value.type == 'Point') { // 点
+        lat = this.field.value.coordinates[0];
+        lng = this.field.value.coordinates[1];
         this.position = [lng, lat];
       }
       // console.log(this.obmobile);

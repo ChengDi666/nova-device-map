@@ -81,7 +81,7 @@ export default {
       this.initMouseTool();
       this.draw(this.field.shapetype);
     }, 1000);
-    // console.log(this.field);
+    console.log(this.field);
     if (this.field.value instanceof Object && this.field.value.coordinates.length) {
     // if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
     //   // lng = this.field.value.lng;
