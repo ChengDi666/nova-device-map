@@ -89,7 +89,7 @@ export default {
   },
   mounted() {
     let lng, lat, zoom = 12;
-    // console.log(this.field);
+    console.log(this.field);
     // console.log(this.field.shapetype);
     if (this.field.value instanceof Object) {
       // lng = this.field.value.lng;
@@ -99,6 +99,7 @@ export default {
       this.obmobile = this.field.value;
       if(this.field.shapetype == 'track' && this.field.value.path && this.field.value.path.length) {  //  历史轨迹
         this.dian.isShow = true;
+        console.log(this.field.value.path);
         this.obmobile.path = this.field.value.path;
         this.dian.position = this.field.value.path[0];
         lat = this.field.value.path[0][1];
@@ -109,7 +110,6 @@ export default {
           lng = this.field.value.path[0][0];
         }
       } else if (this.field.value.type == 'polygon') { //  多边形
-        
         this.field.value.positions.forEach((element, index) => {
           this.obmobile.positions[index] = [element.lng, element.lat];
         });
@@ -125,9 +125,12 @@ export default {
           lat = this.field.value.center.lat;
         }
         this.obmobile.center = [lng, lat];
-      } else if(this.field.value.type == 'Point') { // 点
-        lat = this.field.value.coordinates[0];
-        lng = this.field.value.coordinates[1];
+      } else { // 点
+      // } else if(this.field.value.type == 'Point') { // 点
+        // lat = this.field.value.coordinates[1];
+        // lng = this.field.value.coordinates[0];
+        lng = this.field.value.lng;
+        lat = this.field.value.lat;
         this.position = [lng, lat];
       }
       // console.log(this.obmobile);

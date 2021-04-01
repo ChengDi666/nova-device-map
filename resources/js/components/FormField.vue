@@ -82,12 +82,12 @@ export default {
       this.draw(this.field.shapetype);
     }, 1000);
     console.log(this.field);
-    if (this.field.value instanceof Object && this.field.value.coordinates.length) {
-    // if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
-    //   // lng = this.field.value.lng;
-      // lat = this.field.value.lat;
-      lat = this.field.value.coordinates[0];
-      lng = this.field.value.coordinates[1];
+    // if (this.field.value instanceof Object && this.field.value.coordinates.length) {
+    if (this.field.value instanceof Object && this.field.value.lng && this.field.value.lat) {
+      lng = this.field.value.lng;
+      lat = this.field.value.lat;
+      // lat = this.field.value.coordinates[1];
+      // lng = this.field.value.coordinates[0];
     } else {
       lng = this.field.lng;
       lat = this.field.lat;
@@ -97,6 +97,7 @@ export default {
     this.lng = lng;
     this.zoom = zoom;
     this.center = [lng, lat];
+    // console.log('center: ', this.center);
     if(this.field.value) {  //  初始化覆盖物
       setTimeout(() => this.initAddOverlays(this.field), 500);
     }
@@ -248,18 +249,18 @@ export default {
       this.value = value;
     },
     setAmapValue() {  //  设置字段的内部值
-      // let value = {
-      //   lng: this.lng,
-      //   lat: this.lat,
-      // };
-      // Object.assign(value, this.overlaysData);
       let value = {
-        coordinates: [this.lat, this.lng],
-        type: "Point"
-      }
+        lat: this.lat,
+        lng: this.lng
+      };
+      Object.assign(value, this.overlaysData);
+      // let value = {
+      //   coordinates: [this.lng, this.lat],
+      //   type: "Point"
+      // }
       // POINT(37.513546 121.436274)
       // let value = `POINT(${this.lat} ${this.lng})`
-      // console.log(value);
+      console.log(value);
       this.handleChange(value);
     },
     initAddOverlays(data) { //  初始化添加覆盖物
@@ -296,11 +297,11 @@ export default {
             strokeOpacity: '0.4',
             bubble: true
         });
-      } else if (data.value.type == 'Point' && data.value.coordinates.length) { // 点
-      // } else if (data.value.type == undefined && data.value.lng && data.value.lat) { // 点
+      // } else if (data.value.type == 'Point' && data.value.coordinates.length) { // 点
+      } else if (data.value.type == undefined && data.value.lng && data.value.lat) { // 点
         Overlays = new AMap.Marker({
-          position: [data.value.coordinates[1], data.value.coordinates[0]],
-          // position: [data.value.lng, data.value.lat],
+          // position: [data.value.coordinates[0], data.value.coordinates[1]],
+          position: [data.value.lng, data.value.lat],
           offset: new AMap.Pixel(-13, -30)
         });
       }
