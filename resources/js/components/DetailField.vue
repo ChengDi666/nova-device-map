@@ -14,7 +14,7 @@
           <el-amap-marker v-if="position.length" vid="component-marker" :position="position"></el-amap-marker>
           <el-amap-polygon v-if="obmobile.type == 'polygon' ? true : false" vid="polygonss" :path="obmobile.positions" :events="RangeEvents"></el-amap-polygon>
           <el-amap-circle v-if="obmobile.type == 'circle' ? true : false" :center="obmobile.center" :radius="obmobile.radius" :events="RangeEvents"></el-amap-circle>
-          <el-amap-polyline v-if="field.shapetype == 'track' ? true : false" :path="obmobile.path" :events="polylineEvent"></el-amap-polyline>
+          <el-amap-polyline v-if="field.shapetype == 'track' ? true : false" :path="obmobile" :events="polylineEvent"></el-amap-polyline>
           <el-amap-marker v-if="dian.isShow" vid="component-marker" :position="dian.position" :icon="dian.icon" :events="catEvent" :offset="offsets" autoRotation="true" angle="-90"></el-amap-marker>
         </el-amap>
       </div>
@@ -39,6 +39,7 @@ export default {
       offsets: [-26,-13],
       myMap: {},
       markerss: {},
+      infoWindows: {},
       myMarker: {},
       amapManager,
       dian: {
@@ -55,6 +56,9 @@ export default {
           }, 5000);
           if(self.field.shapetype == 'setTrack' && self.field.value.path && self.field.value.path.length) { //  轨迹设置-显示
             self.showPath(self.field.value.path);
+          }
+          if(self.field.shapetype == 'track' && self.field.value && self.field.value.length > 1) {
+            self.addMarkers(self.field.value);
           }
         }
       },
@@ -97,13 +101,23 @@ export default {
       // lat = this.field.value.lat;
       // console.log(this.field);
       this.obmobile = this.field.value;
-      if(this.field.shapetype == 'track' && this.field.value.path && this.field.value.path.length) {  //  历史轨迹
+      if(this.field.shapetype == 'track' && this.field.value) {  //  历史轨迹
         this.dian.isShow = true;
-        console.log(this.field.value.path);
-        this.obmobile.path = this.field.value.path;
-        this.dian.position = this.field.value.path[0];
-        lat = this.field.value.path[0][1];
-        lng = this.field.value.path[0][0];
+        // console.log(this.field.value);
+        if(this.field.value.length) { // 有轨迹信息
+          if(this.field.value.length > 1) { // 轨迹超过一个点
+            this.obmobile = this.field.value.map(item => {
+              return [item.lng, item.lat];
+            });
+          } else this.obmobile = []
+          lat = this.field.value[0].lat;
+          lng = this.field.value[0].lng;
+        } else {
+          lat = this.field.lat;
+          lng = this.field.lng;
+        }
+        this.dian.position = [lng, lat];
+        // console.log(this.dian.position);
       } else if(this.field.shapetype == 'setTrack') { //  轨迹设置-显示
         if(this.field.value.path && this.field.value.path.length) {
           lat = this.field.value.path[0][1];
@@ -143,6 +157,30 @@ export default {
     }
   },
   methods: {
+    addMarkers(data) {
+      for(let i=0;i<data.length;i+=1){
+        const item = data[i];
+        let circleMarker = new AMap.CircleMarker({
+          center: [item.lng, item.lat],
+          // center: new AMap.LngLat(item.lng, item.lat),
+          radius:6,//3D视图下，CircleMarker半径不要超过64px
+          // strokeColor:'black',
+          strokeWeight:0,
+          fillColor:'rgba(255,255,255,0)',
+          strokeOpacity: 0,
+          zIndex:100,
+          bubble:true,
+          cursor:'pointer',
+          clickable: true
+        })
+        circleMarker.content = item.time
+        circleMarker.setMap(this.myMap)
+        circleMarker.on("mouseover", this.infoWindowOpen);
+        circleMarker.emit("mouseover", { target: circleMarker});
+        circleMarker.on("mouseout", this.infoWindowClose);
+        circleMarker.emit("mouseout", { target: circleMarker});
+      }
+    },
     startPlay() {
       console.log('播放轨迹');
       // console.log(this.myMap);
@@ -160,7 +198,7 @@ export default {
       this.myMarker.on('moving', (e) => {
         passedPolyline.setPath(e.passedPath);
       });
-      this.myMarker.moveAlong(this.obmobile.path, 60, function(k){return k}, true);
+      this.myMarker.moveAlong(this.obmobile, 60, function(k){return k}, true);
     },
     showPath(data) {  //  路线规划显示
       // console.log(data);
@@ -182,7 +220,52 @@ export default {
         }
 
       });
+    },   
+
+    async infoWindowOpen(e) { //  鼠标悬停，打开信息窗
+      if (e.lnglat === undefined) return; //  加载时，不显示
+      var infoWindow = this.infoWindows;
+      if(infoWindow.CLASS_NAME == undefined) {
+        infoWindow = new AMap.InfoWindow({ offset: new AMap.Pixel(0, -15), closeWhenClickMap: true });
+        // console.log('鼠标移入');
+      }
+      const content = await this.formatDate(new Date(e.target.content), 'yyyy-MM-dd hh:mm:ss')
+      const position = e.target.getCenter()
+      infoWindow.setContent(`<p>坐标： ${position}</p><p>时间： ${content}</p>`);
+      infoWindow.open(this.myMap, position);
+      this.infoWindows = infoWindow;
+
+    },
+    infoWindowClose(e) { //  鼠标移除，关闭信息窗
+      if (e.lnglat === undefined) return; //  加载时，不显示
+      // console.log('鼠标移出');
+      this.infoWindows.close();
+    },
+    
+    padLeftZero(str) {
+      return ('00' + str).substr(str.length)
+    },
+
+    formatDate(date, fmt) {
+      if (/(y+)/.test(fmt)) {
+        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+      }
+      let o = {
+        'M+': date.getMonth() + 1,
+        'd+': date.getDate(),
+        'h+': date.getHours(),
+        'm+': date.getMinutes(),
+        's+': date.getSeconds()
+      }
+      for (let k in o) {
+        if (new RegExp(`(${k})`).test(fmt)) {
+          let str = o[k] + ''
+          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : (('00' + str).substr(str.length)))
+        }
+      }
+      return fmt
     }
+
   }
 };
 </script>
